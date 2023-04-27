@@ -4,8 +4,8 @@ let form = doc.forms.add;
 let mainArr = []
 form.onsubmit = (e) => {
    e.preventDefault();
-   let obj = {};
    if (form.querySelector('input').value !== '') {
+      let obj = {};
       let rm = Math.random();
       obj.id = rm;
       obj.isDone = false;
