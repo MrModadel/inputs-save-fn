@@ -5,15 +5,17 @@ let mainArr = []
 form.onsubmit = (e) => {
    e.preventDefault();
    let obj = {};
-   let rm = Math.random();
-   obj.id = rm;
-   obj.isDone = false;
-   obj.time = startTime();
-   obj.task = form.querySelector('input').value;
-   mainArr.push(obj);
-   console.log(mainArr);
-   obj = {};
-   creater()
+   if (form.querySelector('input').value !== '') {
+      let rm = Math.random();
+      obj.id = rm;
+      obj.isDone = false;
+      obj.time = startTime();
+      obj.task = form.querySelector('input').value;
+      mainArr.push(obj);
+      console.log(mainArr);
+      obj = {};
+      creater()
+   }
 }
 function checkTime(i) {
    if (i < 10) {
@@ -62,10 +64,10 @@ function creater() {
       left.append(title, time);
       right.append(img);
       container.append(item);
-      img.onclick=()=>{
-         mainArr = mainArr.filter(el=>el.id!==i.id);
+      img.onclick = () => {
+         mainArr = mainArr.filter(el => el.id !== i.id);
          console.log(mainArr);
-         
+
          creater()
       }
    }
