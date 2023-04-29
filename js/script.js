@@ -1,75 +1,101 @@
+let form = document.forms.todo
+let input = form.querySelector('input')
+let cont = document.querySelector('.container')
+let todos = []
 
-let doc = document;
-let form = doc.forms.add;
-let mainArr = []
+
 form.onsubmit = (e) => {
    e.preventDefault();
-   if (form.querySelector('input').value !== '') {
-      let obj = {};
-      let rm = Math.random();
-      obj.id = rm;
-      obj.isDone = false;
-      obj.time = startTime();
-      obj.task = form.querySelector('input').value;
-      mainArr.push(obj);
-      console.log(mainArr);
-      obj = {};
-      creater()
-   }
-}
-function checkTime(i) {
-   if (i < 10) {
-      i = "0" + i;
-   }
-   return i;
-}
-function startTime() {
-   var today = new Date();
-   var h = today.getHours();
-   var m = today.getMinutes();
-   m = checkTime(m);
-   let text = h + ":" + m;
-   let t = setTimeout(function () {
-      startTime()
-   }, 30000);
-   return text;
-}
-startTime();
-let container = doc.querySelector('.look__container')
 
-//create
-function creater() {
-   container.innerHTML = ''
-   for (let i of mainArr) {
-      let doc = document
-      let item = doc.createElement('div');
-      let left = doc.createElement('div');
-      let right = doc.createElement('div');
-      let title = doc.createElement('h1');
-      let time = doc.createElement('div');
-      let img = doc.createElement('img');
-      //style
-      item.className = 'look__item item';
-      left.classList.add('item__left');
-      right.classList.add('item__right');
-      title.classList.add('item__title');
-      title.innerText = i.task;
-      time.classList.add('item__time');
-      time.innerText = i.time
-      img.src = './img/close.svg';
-      img.classList.add('item__close-img');
-      img.alt = 'close';
-      //append
-      item.append(left, right);
-      left.append(title, time);
-      right.append(img);
-      container.append(item);
-      img.onclick = () => {
-         mainArr = mainArr.filter(el => el.id !== i.id);
-         console.log(mainArr);
+   let task = {
+      id: Math.random(),
+      isDone: false,
+      task: input.value,
+      time: new Date().getHours() + ":" + new Date().getMinutes()
+   }
 
-         creater()
+   if (input.value.length !== 0) {
+      todos.push(task)
+      reload(todos, cont)
+   }
+
+}
+
+function reload(arr, place) {
+   place.innerHTML = ""
+   let span;
+   let itemTask;
+   for (let item of arr) {
+      let item_div = document.createElement('div')
+      let div_top = document.createElement('div')
+      let span_top = document.createElement('span')
+      let span_time = document.createElement('span')
+      let delete_btn = document.createElement('button')
+      let edit_btn = document.createElement('button')
+
+      item_div.classList.add('item')
+      div_top.classList.add('top')
+      span_time.classList.add('time')
+
+      span_top.innerHTML = item.task
+      span_time.innerHTML = item.time
+      delete_btn.innerHTML = "x"
+      edit_btn.innerHTML = "edit"
+      edit_btn.dataset.modal = '0';
+      place.append(item_div)
+      div_top.append(span_top, delete_btn, edit_btn)
+      item_div.append(div_top, span_time)
+
+      delete_btn.onclick = () => {
+         todos = todos.filter(el => el.id !== item.id)
+         item_div.classList.add('remove_anim')
+         setTimeout(() => {
+            item_div.remove()
+         }, 1000)
+      }
+      // modal
+      let form = document.forms.modal;
+      let modal = document.querySelector('.modal');
+      let closeBtns = document.querySelectorAll('[data-close]');
+      let input = document.querySelector('.modal__input');
+      let btn = document.querySelector('.btn');
+
+      closeBtns.forEach((btn) => {
+         btn.onclick = () => {
+            modal.classList.remove('show', 'fade')
+         }
+      })
+      if (item.isDone === true) {
+         span_top.style.textDecoration = 'line-through red';
+      }
+      edit_btn.onclick = () => {
+         input.value = span_top.innerText;
+         itemTask = item;
+         span = span_top;
+         modal.classList.add('show', 'fade');
+      }
+      btn.onclick=()=>{
+         span.innerText = input.value;
+         itemTask.task = input.value;
+         console.log(arr);
+         
+         modal.classList.remove('show', 'fade');
+      }
+      form.onsubmit = (e) => {
+         e.preventDefault();
+      }
+      span_top.onclick = () => {
+         if (span_top.style.textDecoration !== 'line-through red') {
+            span_top.style.textDecoration = 'line-through red';
+            item.isDone = true;
+            console.log(arr);
+
+         } else {
+            span_top.style.textDecoration = 'none';
+            item.isDone = false;
+            console.log(arr);
+
+         }
       }
    }
 }
-

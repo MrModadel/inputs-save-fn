@@ -1,36 +1,214 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <style>
+      * {
+         padding: 0px;
+         margin: 0px;
+         box-sizing: border-box;
+      }
+
+      center {
+         margin-bottom: 40px;
+      }
+
+      .container {
+         width: 70%;
+         margin: 0 auto;
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         gap: 20px;
+         margin-top: 50px;
+         transition: .5s ease;
+      }
+
+      .item {
+         width: 100%;
+         border: 1px solid #007FFF;
+         border-radius: 12px;
+         padding: 20px;
+         background-color: #F0F0F0;
+      }
+
+      .item .top {
+         width: 100%;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+      }
+
+      .item .top span {
+         font-size: 18px;
+         font-weight: 700;
+         color: black;
+      }
+
+      .item .top button {
+         all: unset;
+         border-radius: 100%;
+         border: 1px solid black;
+         padding: 5px;
+      }
+
+      .item .time {
+         opacity: .7;
+      }
+
+      .remove_anim {
+         animation: remove 1s ease;
+      }
+
+      .modal {
+         position: fixed;
+         top: 0;
+         left: 0;
+         z-index: 1050;
+         display: none;
+         width: 100%;
+         height: 100%;
+         overflow: hidden;
+         background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal__dialog {
+         max-width: 500px;
+         margin: 40px auto;
+      }
+
+      .modal__content {
+         position: relative;
+         width: 100%;
+         padding: 40px;
+         background-color: #fff;
+         border: 1px solid rgba(0, 0, 0, 0.2);
+         border-radius: 4px;
+         max-height: 80vh;
+         overflow-y: auto;
+      }
+
+      .modal__close {
+         position: absolute;
+         top: 8px;
+         right: 14px;
+         font-size: 30px;
+         color: #000;
+         opacity: 0.5;
+         font-weight: 700;
+         border: none;
+         background-color: transparent;
+         cursor: pointer;
+      }
+
+      .modal__title {
+         text-align: center;
+         font-size: 22px;
+         text-transform: uppercase;
+      }
+
+      .modal__input {
+         display: block;
+         margin: 20px auto 20px auto;
+         width: 280px;
+         height: 50px;
+         background: #fff;
+         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+         border: none;
+         font-size: 18px;
+         /* text-align: center; */
+         padding: 0 20px;
+         outline: 0;
+      }
+
+      .modal .btn {
+         display: block;
+         width: 280px;
+         margin: 0 auto;
+      }
+
+      .show {
+         display: block;
+      }
+
+      .hide {
+         display: none;
+      }
+
+      .fade {
+         animation-name: fade;
+         animation-duration: 1.5s;
+      }
+
+      @keyframes fade {
+         from {
+            opacity: 0.1;
+         }
+
+         to {
+            opacity: 1;
+         }
+      }
+
+      @keyframes remove {
+         form {
+            opacity: 1;
+            scale: 1;
+         }
+
+         to {
+            opacity: 0;
+            scale: 0.5;
+         }
+         
+      }
+      .btn_min{
+         padding: 12px ;
+         background-color: #007FFF;
+         border: 0;
+         font-size: 21px;
+         color: #fff;
+         transition: .2s ease;
+         font-weight: 600;
+      }
+      .btn_min:hover {
+         background-color: #084d92;
+         transition: .2s ease;
+         color: #bcbbbb;
+
+      }
+   </style>
    <title>Document</title>
-   <link rel="stylesheet" href="fonts/stylesheet.css">
-   <link rel="stylesheet" href="css/style.min.css">
 </head>
+
 <body>
-   <div class="wrapper">
-      <div class="header">
-         <div class="container">
-            <div class="header__container">
-               <div class="header__h1">Todo List</div>
-               <form name="add" action="#" class="header__input-box in-box">
-                  <input type="text" class="in-box__input">
-                  <button class="in-box__btn">Add</button>
-               </form>
-            </div>   
-         </div>
-         <hr class="hr">
-      </div>
-      <main class="page">
-         <section class="look">
-            <div class="container">
-               <div class="look__container">
-               </div>
-            </div>
-         </section>
-      </main>
+
+   <center>
+      <h1>Todo</h1>
+      <form name="todo">
+         <input type="text" name="task">
+         <button>add</button>
+      </form>
+   </center>
+   <hr>
+
+   <div class="container">
+
    </div>
-   <script src="js/script.js"></script>
+   <div class="modal">
+      <div class="modal__dialog">
+         <div class="modal__content">
+            <form action="#" name="modal">
+               <div data-close class="modal__close">&times;</div>
+               <input required placeholder="Введите измениние" name="text" type="text" class="modal__input">
+               <button class="btn btn_dark btn_min">Изменить</button>
+            </form>
+         </div>
+      </div>
+   </div>
+   <script src="./js/script.js"></script>
 </body>
+
 </html>
